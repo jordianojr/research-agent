@@ -1,0 +1,9 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: research_agent
+    ports:
+      - "5200:5000"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "5000"]
