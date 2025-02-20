@@ -6,8 +6,10 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 from agents.agent import begin_research
 from agents.webscrape import scraper
+from agents.file_extractor import file_processor
 from datetime import datetime
 import os
+import logging
 
 app = FastAPI()
 db = None
@@ -130,7 +132,7 @@ async def send_message(agent_id: str, message: Message):
             raise HTTPException(status_code=404, detail="Agent not found")
 
         # Run the research process and get the final draft
-        final_draft = begin_research(message.message)
+        final_draft = begin_research(task=message.message, agent_db=agent)
 
         # Store the result in MongoDB
         await db.agents.update_one(
@@ -169,14 +171,40 @@ async def update_agent_websites(agent_id: str, websites: List[str]):
             )
         
         return None
-
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.put("/agents/{agent_id}/files", status_code=204)
 async def update_agent_files(agent_id: str, files: List[UploadFile] = File(...)):
-    # Implementation for updating agent files
-    pass
+    try:
+        # Log the incoming request
+        logging.info(f"Received file upload request for agent {agent_id}")
+        logging.info(f"Number of files: {len(files)}")
+        
+        # Check if agent exists
+        agent = await db.agents.find_one({"_id": ObjectId(agent_id)})
+        if agent is None:  # Changed from 'if not agent'
+            logging.error(f"Agent {agent_id} not found")
+            raise HTTPException(status_code=404, detail="Agent not found")
+        
+        # Initialize file processor's database connection
+        mongodb_url = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
+        await file_processor.init_db(mongodb_url)
+        
+        # Process and store files
+        logging.info("Starting file processing")
+        await file_processor.process_files(agent_id, files)
+        logging.info("File processing completed successfully")
+        
+        return None
+    except ValueError as e:
+        logging.error(f"Validation error: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        logging.error(f"Error processing files: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn

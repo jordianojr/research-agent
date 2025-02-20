@@ -16,3 +16,13 @@ duckduckgo-search==7.4.3
 tavily-python==0.5.1
 langgraph.checkpoint.sqlite==2.0.5
 beautifulsoup4==4.12.2
+unstructured[all-docs]==0.16.23
+unstructured-client==0.30.1
+unstructured-inference==0.8.7
+unstructured.pytesseract==0.3.13
+openai==1.58.1
+tiktoken==0.9.0
+nltk==3.9.1
+pytesseract==0.3.13
+pdf2image==1.17.0
+pillow==10.3.0

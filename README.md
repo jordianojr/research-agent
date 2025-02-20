@@ -3,7 +3,7 @@
 [![Python Version](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A lightweight FastAPI-based research agent application that provides a set of RESTful endpoints for managing agents, sending messages, and updating agent-related resources.
+A FastAPI-based research agent application that provides RESTful endpoints for managing agents, processing documents, and conducting research tasks. Features include text extraction, tokenization, and OCR capabilities.
 
 ## Table of Contents
 
@@ -13,32 +13,29 @@ A lightweight FastAPI-based research agent application that provides a set of RE
 - [Installation](#installation)
 - [Running the Application](#running-the-application)
 - [API Endpoints](#api-endpoints)
-- [Testing](#testing)
 - [Docker Setup](#docker-setup)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Overview
 
-The Research Agent is a simple RESTful API built with FastAPI. It allows you to:
-- Create, fetch, and delete agents.
-- Send messages to agents.
-- Update agent websites and files.
-
-The app is designed with a focus on simplicity and is easily containerized using Docker.
+The Research Agent is a comprehensive API that:
+- Processes and analyzes documents and web content
+- Manages research agents with associated files and websites
+- Implements token-aware content management
 
 ### Multi-Agent Workflow
 
 The system uses a LangGraph-based workflow with multiple specialized agents:
 
-1. **Planner Agent**: Creates high-level outlines and plans for the research task
+1. **Planner Agent**: Creates high-level outlines and plans for research tasks
 2. **Research Agent**: 
    - Generates search queries based on the plan
-   - Uses Tavily to gather relevant information
-   - Processes and extracts key information from search results
-3. **Generation Agent**: Creates content based on the research and plan
-4. **Reflection Agent**: Reviews and critiques the generated content
-5. **Research Critique Agent**: Performs additional targeted research based on the critique
+   - Uses Tavily for information gathering
+   - Processes and extracts key information
+3. **Generation Agent**: Creates content based on research and plan
+4. **Reflection Agent**: Reviews and critiques generated content
+5. **Research Critique Agent**: Performs targeted research based on critique
 
 The agents work together in a flexible workflow that can:
 - Adapt the research path based on initial findings
@@ -47,66 +44,86 @@ The agents work together in a flexible workflow that can:
 - Generate comprehensive and well-researched content
 
 ![Multi-Agent Workflow](docs/images/workflow.png)
-
-*Figure 1: Multi-Agent Research Workflow Architecture*
-
 ## Features
 
-- **Agent Management:** Create, retrieve, and delete agents.
-- **Messaging:** Send messages to agents.
-- **Updates:** Update agent websites and files.
-- **Containerized:** Fully Dockerized for seamless deployment.
+### Core Functionality
+- **Agent Management:** Create, retrieve, and delete research agents
+- **Document Processing:** 
+  - Extract text from multiple file formats (.pdf, .docx, .doc, .xlsx, .xls, .ppt, .pptx)
+  - OCR support for images and scanned documents
+  - Token-aware content processing
+- **Web Content:** 
+  - Website content extraction and processing
+  - Token-based content management
+- **Research Tasks:** Execute and manage research queries
+- **Token Management:** Automatic token counting and limit enforcement (120k tokens)
+
+### Technical Features
+- FastAPI backend with async support
+- MongoDB database integration
+- Docker containerization
+- Comprehensive error handling
+- Detailed logging system
 
 ## Project Structure
 
 ```plaintext
 research_agent/
-│── app/ # Main FastAPI application
-│ ├── main.py # FastAPI entry point
-│ ├── routes/ # API route handlers
-│ ├── models/ # Data models
-│ ├── services/ # Business logic and services
-│ ├── database.py # Database connection setup (if applicable)
+│── app/
+│   ├── main.py              # FastAPI application entry point
+│   
+│── agents/
+│   ├── agent.py            # Core agent logic
+│   ├── file_extractor.py   # File processing and text extraction
+│   └── webscrape.py        # Website content extraction
 │
-│── test/ # Unit and integration tests
-│ ├── test_agents.py # Tests for agent-related endpoints
+│── docker/
+│   ├── Dockerfile          # Docker configuration
+│   └── requirements.txt    # Python dependencies
 │
-│── docker/ # Docker-related files
-│ ├── Dockerfile # Docker build configuration
-│ ├── requirements.txt # Python dependencies
-│
-│── .gitignore # Git ignore file
-│── README.md # Project documentation
-├── docker-compose.yml # Docker Compose setup
+└── docker-compose.yml      # Docker Compose configuration
 ```
 
-### Explanation:
-- **`app/`**: Contains the core FastAPI application logic, including routes, models, and services.  
-- **`test/`**: Holds test files using `pytest`.  
-- **`docker/`**: Stores Docker-related configuration files, including `Dockerfile` and dependencies.  
-- **`.gitignore`**: Lists files and directories to be ignored by Git.  
-- **`README.md`**: Documentation for the project.  
-
-This structure keeps things modular and easy to maintain. 
 ## Installation
 
-1. **Using Docker:**
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/research-agent.git
+cd research_agent
+```
 
-    Preferably Docker version **27.4.0**  
+2. Install Docker:
+```bash
+# Backend
+docker-compose up --build
 
-    ```bash
-    git clone https://github.com/jordianojr/research-agent.git
-    cd research_agent
-    docker-compose up --build
-    brew services start mongodb-community
+```
 
-## Testing
-    
-    pytest test/test_agents.py
+## API Endpoints
+
+- `POST /agents` - Create new agent
+- `GET /agents/{agent_id}` - Retrieve agent details
+- `DELETE /agents/{agent_id}` - Delete agent
+- `PUT /agents/{agent_id}/files` - Update agent files
+- `PUT /agents/{agent_id}/websites` - Update agent websites
+- `POST /agents/{agent_id}/queries` - Send research query
+
+## Running the Application
+
+1. Start the backend:
+```bash
+docker-compose up --build
+```
+
+2. Start the frontend:
+```bash
+cd frontend
+npm start
+```
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request for any improvements, bug fixes, or features.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
