@@ -105,6 +105,13 @@ docker-compose up --build
 (it takes a while to run, please be patient)
 ```
 
+## Running the Application
+
+1. Start the backend:
+```bash
+docker-compose up --build
+```
+
 ## API Endpoints
 
 - `POST /agents` - Create new agent
@@ -113,13 +120,6 @@ docker-compose up --build
 - `PUT /agents/{agent_id}/files` - Update agent files
 - `PUT /agents/{agent_id}/websites` - Update agent websites
 - `POST /agents/{agent_id}/queries` - Send research query
-
-## Running the Application
-
-1. Start the backend:
-```bash
-docker-compose up --build
-```
 
 ## Reflection of My Journey
 It was a very enriching mini-project that I had to learn a lot from scratch! Researched and weighed out different agentic workflow there are before deciding on a multi-agent workflow approach as it sounds more productive and wholesome for LLMs to research about something as a team.
