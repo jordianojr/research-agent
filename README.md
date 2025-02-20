@@ -13,7 +13,7 @@ A FastAPI-based research agent application that provides RESTful endpoints for m
 - [Installation](#installation)
 - [Running the Application](#running-the-application)
 - [API Endpoints](#api-endpoints)
-- [Reflection of My Journey][#reflection-of-my-journey]
+- [Reflection of My Journey](#reflection-of-my-journey)
 - [Contributing](#contributing)
 - [License](#license)
 
