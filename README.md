@@ -121,12 +121,6 @@ docker-compose up --build
 docker-compose up --build
 ```
 
-2. Start the frontend:
-```bash
-cd frontend
-npm start
-```
-
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
