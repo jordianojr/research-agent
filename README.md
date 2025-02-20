@@ -76,6 +76,7 @@ research_agent/
 │   ├── agent.py            # Core agent logic
 │   ├── file_extractor.py   # File processing and text extraction
 │   └── webscrape.py        # Website content extraction
+│   └── .env                # OPENAI_API_KEY & TAVILY_API_KEY should be placed here
 │
 │── docker/
 │   ├── Dockerfile          # Docker configuration
@@ -83,7 +84,12 @@ research_agent/
 │
 └── docker-compose.yml      # Docker Compose configuration
 ```
-
+## Pre-requisites
+1. Download Docker on your machine as we'll be running the entire backend application using Docker to ensure our functionalities work with the same dependencies!
+   
+2. Create .env file:
+   Both OPENAI_API_KEY & TAVILY_API_KEY should be placed here before running Docker
+   
 ## Installation
 
 1. Clone the repository:
