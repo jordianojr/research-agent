@@ -96,7 +96,7 @@ cd research_agent
 ```bash
 # Backend
 docker-compose up --build
-
+(it takes a while to run, please be patient)
 ```
 
 ## API Endpoints
