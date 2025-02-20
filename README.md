@@ -70,12 +70,12 @@ The agents work together in a flexible workflow that can:
 ```plaintext
 research_agent/
 │── app/
-│   ├── main.py              # FastAPI application entry point
+│   └── main.py              # FastAPI application entry point
 │   
 │── agents/
 │   ├── agent.py            # Core agent logic
 │   ├── file_extractor.py   # File processing and text extraction
-│   └── webscrape.py        # Website content extraction
+│   ├── webscrape.py        # Website content extraction
 │   └── .env                # OPENAI_API_KEY & TAVILY_API_KEY should be placed here
 │
 │── docker/
