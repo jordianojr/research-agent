@@ -122,7 +122,7 @@ docker-compose up --build
 - `POST /agents/{agent_id}/queries` - Send research query
 
 ## Reflection of My Journey
-It was a very enriching mini-project that I had to learn a lot from scratch! Researched and weighed out different agentic workflow there are before deciding on a multi-agent workflow approach as it sounds more productive and wholesome for LLMs to research about something as a team.
+It was a very enriching mini-project that I had to learn a lot from scratch! Researched and weighed out different agentic workflows there are before deciding on a multi-agent workflow approach as it sounds more productive and wholesome for LLMs to research about something as a team.
 
 This backend application certainly isn't sufficient to really showcase the capabilities of agentic workflows because we're unable to see the interaction between different nodes. I was in the midst of creating a frontend application to show the thought processes behind the research agent as it would really show everyone the increased writing quality from multiple iterations and feedback but I was defeated by the submission deadline :P
 
