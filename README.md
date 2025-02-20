@@ -112,6 +112,8 @@ docker-compose up --build
 docker-compose up --build
 ```
 
+Visit http://localhost:8000/docs for Swagger docs
+
 ## API Endpoints
 
 - `POST /agents` - Create new agent
