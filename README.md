@@ -94,7 +94,7 @@ research_agent/
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/research-agent.git
+git clone https://github.com/jordianojr/research-agent
 cd research_agent
 ```
 
