@@ -1,6 +1,7 @@
 # Core dependencies
 fastapi
 uvicorn
+gunicorn
 motor
 python-dotenv
 openai

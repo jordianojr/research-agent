@@ -14,10 +14,9 @@ COPY . .
 
 # Set environment variables
 ENV PORT=8080
-ENV PYTHONPATH=/app
 
 # Expose the port
 EXPOSE ${PORT}
 
 # Define the command to run the app with proper startup configuration
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080", "--timeout-keep-alive", "75"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080", "--timeout-keep-alive", "75"]
