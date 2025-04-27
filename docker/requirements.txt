@@ -12,6 +12,7 @@ pytesseract
 pdf2image
 pydantic
 langgraph
+langgraph-checkpoint-sqlite
 langchain-core
 langchain-openai
 tavily-python
@@ -20,3 +21,4 @@ requests
 pytest
 pytest-asyncio
 pymongo
+python-multipart
