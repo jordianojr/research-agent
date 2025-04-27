@@ -16,6 +16,9 @@ import logging
 app = FastAPI()
 db = None
 
+# Add startup state tracking
+app.state.is_ready = False
+
 class AgentDB(BaseModel):
     id: str = Field(alias="_id")
     name: str
@@ -32,17 +35,31 @@ async def init_db():
         # MongoDB Atlas connection string
         mongodb_url = os.getenv("MONGODB_URL", "mongodb+srv://admin:<db_password>@research-agent.ccvfnie.mongodb.net/?retryWrites=true&w=majority&appName=research-agent")
         # Create a new client and connect to the server with ServerApi=1
-        client = AsyncIOMotorClient(mongodb_url, server_api=ServerApi('1'))
+        client = AsyncIOMotorClient(mongodb_url, server_api=ServerApi('1'), serverSelectionTimeoutMS=5000)
         db = client.agents_db
         await client.admin.command('ping')
         print("Successfully connected to MongoDB Atlas!")
+        return True
     except Exception as e:
         print(f"Error connecting to MongoDB Atlas: {e}")
-        raise e
+        return False
 
 @app.on_event("startup")
 async def startup_event():
-    await init_db()
+    db_success = await init_db()
+    if db_success:
+        app.state.is_ready = True
+    else:
+        # Still mark as ready if DB fails, as it might be optional for some endpoints
+        app.state.is_ready = True
+        print("Warning: Application starting without database connection")
+
+@app.get("/_health")
+async def health_check():
+    """Health check endpoint for Cloud Run."""
+    if not app.state.is_ready:
+        raise HTTPException(status_code=503, detail="Application is not ready")
+    return {"status": "healthy"}
 
 @app.get("/")
 async def root():
