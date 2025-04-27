@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field
 from typing import List, Dict, Optional
 import json
 from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo.server_api import ServerApi
 from bson import ObjectId
 from agents.agent import begin_research
 from agents.webscrape import scraper
@@ -28,14 +29,15 @@ class Message(BaseModel):
 async def init_db():
     global db
     try:
-        # Use environment variable or fallback to default
-        mongodb_url = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
-        client = AsyncIOMotorClient(mongodb_url)
+        # MongoDB Atlas connection string
+        mongodb_url = os.getenv("MONGODB_URL", "mongodb+srv://admin:<db_password>@research-agent.ccvfnie.mongodb.net/?retryWrites=true&w=majority&appName=research-agent")
+        # Create a new client and connect to the server with ServerApi=1
+        client = AsyncIOMotorClient(mongodb_url, server_api=ServerApi('1'))
         db = client.agents_db
         await client.admin.command('ping')
-        print("Successfully connected to MongoDB!")
+        print("Successfully connected to MongoDB Atlas!")
     except Exception as e:
-        print(f"Error connecting to MongoDB: {e}")
+        print(f"Error connecting to MongoDB Atlas: {e}")
         raise e
 
 @app.on_event("startup")
