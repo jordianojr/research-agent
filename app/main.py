@@ -8,6 +8,7 @@ from agents.agent import begin_research
 from agents.webscrape import scraper
 from agents.file_extractor import file_processor
 from datetime import datetime
+import uvicorn
 import os
 import logging
 
@@ -207,6 +208,5 @@ async def update_agent_files(agent_id: str, files: List[UploadFile] = File(...))
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
-    import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
 

@@ -6,14 +6,16 @@ services:
     image: research_agent
     ports:
       - "5200:8000"
-    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "${PORT:-8000}"]
+    platform: linux/amd64
     depends_on:
       - mongo
     env_file:  # Add this line
       - agents/.env 
     environment:
       - MONGODB_URL=mongodb://mongo:27017
-
+      - PORT=8000
+        
   mongo:
     image: mongo
     ports:
