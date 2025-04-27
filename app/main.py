@@ -33,7 +33,7 @@ async def init_db():
     global db
     try:
         # MongoDB Atlas connection string
-        mongodb_url = os.getenv("MONGODB_URL", "mongodb+srv://admin:<db_password>@research-agent.ccvfnie.mongodb.net/?retryWrites=true&w=majority&appName=research-agent")
+        mongodb_url = os.getenv("MONGODB_URL")
         # Create a new client and connect to the server with ServerApi=1
         client = AsyncIOMotorClient(mongodb_url, server_api=ServerApi('1'), serverSelectionTimeoutMS=5000)
         db = client.agents_db
@@ -210,7 +210,7 @@ async def update_agent_files(agent_id: str, files: List[UploadFile] = File(...))
             raise HTTPException(status_code=404, detail="Agent not found")
         
         # Initialize file processor's database connection
-        mongodb_url = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
+        mongodb_url = os.getenv("MONGODB_URL")
         await file_processor.init_db(mongodb_url)
         
         # Process and store files
@@ -227,5 +227,5 @@ async def update_agent_files(agent_id: str, files: List[UploadFile] = File(...))
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8080)
 
